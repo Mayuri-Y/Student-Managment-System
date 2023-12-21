@@ -1,0 +1,57 @@
+class StudentInformationSystem {
+    private List<Student> students = new ArrayList<>();
+    private List<Course> courses = new ArrayList<>();
+
+    public void addStudent(Student student) {
+        students.add(student);
+    }
+
+    public void addCourse(Course course) {
+        courses.add(course);
+    }
+
+    public void registerStudentForCourse(String studentId, String courseId, int grade) {
+        Student student = findStudentById(studentId);
+        if (student != null) {
+            student.registerCourse(courseId, grade);
+        } else {
+            System.out.println("Student not found with ID: " + studentId);
+        }
+    }
+
+    public void generateTranscript(String studentId) {
+        Student student = findStudentById(studentId);
+        if (student != null) {
+            System.out.println("Transcript for Student: " + student.getName());
+            System.out.println("Student ID: " + student.getStudentId());
+            System.out.println("Courses:");
+
+            for (Map.Entry<String, Integer> entry : student.getCourses().entrySet()) {
+                String courseId = entry.getKey();
+                int grade = entry.getValue();
+                Course course = findCourseById(courseId);
+                System.out.println(course.getCourseName() + ": " + grade);
+            }
+        } else {
+            System.out.println("Student not found with ID: " + studentId);
+        }
+    }
+
+    private Student findStudentById(String studentId) {
+        for (Student student : students) {
+            if (student.getStudentId().equals(studentId)) {
+                return student;
+            }
+        }
+        return null;
+    }
+
+    private Course findCourseById(String courseId) {
+        for (Course course : courses) {
+            if (course.getCourseId().equals(courseId)) {
+                return course;
+            }
+        }
+        return null;
+    }
+}
